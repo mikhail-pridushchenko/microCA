@@ -28,8 +28,8 @@ cd ca
 KEY_FILE="$CRT_DIR"/"$CRT_FILE_BASE".key
 openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out "$KEY_FILE"
 CSR_O="$(openssl x509 -noout -subject -in sub-ca.crt -nameopt multiline | grep '^[[:space:]]*organizationName *= ' | sed 's/^.*= //')"
-CSR_CN="$(openssl x509 -noout -subject -in sub-ca.crt -nameopt multiline | grep '^[[:space:]]*countryName *= ' | sed 's/^.*= //')"
-openssl req -new -config sub-ca.conf -subj "/C=$CSR_CN/O=$CSR_O/CN=vpn_server/" -key "$KEY_FILE" -out "$CSR_FILE"
+CSR_C="$(openssl x509 -noout -subject -in sub-ca.crt -nameopt multiline | grep '^[[:space:]]*countryName *= ' | sed 's/^.*= //')"
+openssl req -new -config sub-ca.conf -subj "/C=$CSR_C/O=$CSR_O/CN=vpn_server/" -key "$KEY_FILE" -out "$CSR_FILE"
 
 CRT_EXTENSION="client_ext"
 case "$IS_SERVER" in
