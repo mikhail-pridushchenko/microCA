@@ -3,12 +3,14 @@ set -e
 
 CSR_FILE="$1"
 CRT_CN="$2"
-IS_SERVER="${3:-'no'}"
+IS_SERVER="${3:-yes}"
 
-CRT_EXTENSION="client_ext"
+CRT_EXTENSION="server_ext"
 case "$IS_SERVER" in
-	"1"|"Y"|"YES"|"y"|"yes")
-		CRT_EXTENSION="server_ext"
+	1|Y|YES|y|yes)
+		;;
+	*)
+		CRT_EXTENSION="client_ext"
 esac
 
 if [ -z "$CRT_CN" ]
