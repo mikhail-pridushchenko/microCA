@@ -47,7 +47,7 @@ KEY_FILE="$CRT_FILE_BASE".key
 openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out private/"$KEY_FILE"
 CSR_O="$(openssl x509 -noout -subject -in sub-ca.crt -nameopt multiline | grep '^[[:space:]]*organizationName *= ' | sed 's/^.*= //')"
 CSR_C="$(openssl x509 -noout -subject -in sub-ca.crt -nameopt multiline | grep '^[[:space:]]*countryName *= ' | sed 's/^.*= //')"
-openssl req -new -config sub-ca.conf -subj "/C=$CSR_C/O=$CSR_O/CN=vpn_server/" -key private/"$KEY_FILE" -out "$CSR_FILE"
+openssl req -new -config sub-ca.conf -subj "/C=$CSR_C/O=$CSR_O/CN=$CRT_CN/" -key private/"$KEY_FILE" -out "$CSR_FILE"
 
 openssl ca -config sub-ca.conf -in "$CSR_FILE" -out "$CRT_FILE" -extensions "$CRT_EXTENSION" -batch
 cp "$CRT_FILE" private/"$KEY_FILE" "$CRT_DIR"/
